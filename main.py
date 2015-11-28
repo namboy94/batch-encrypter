@@ -19,35 +19,69 @@ if not _platform == "linux":
     sys.exit(1)
 
 # hardcoded variables
-keyFile = os.getenv("HOME") + "/.ssh/key.bin"
-paranoidKeyFile = os.getenv("HOME") + "/.ssh/key2.bin"
+homedir = os.getenv("HOME")
+progdir = homedir + "/.batch-encrypt"
+keyFile = progdir + "/key1.bin"
+paranoidKeyFile = progdir + "/key2.bin"
+
+#install check
+installed = False
+if os.path.isfile(keyFile) or os.path.isfile(paranoidKeyFile):
+    installed = True
 
 # argument parser
 parser = argparse.ArgumentParser()
-parser.add_argument("file_to_encrypt", help="the file or directory to encrypt")
-parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-parser.add_argument("-k", "--key", help="Specify a custom key", dest="key1", action="store_true")
-parser.add_argument("-p", "--paranoidKey", help="Specify a custom key key for zip files", dest="key2", action="store_true")
-parser.add_argument("-z", "--zipped", help="zips the files and encrypts the zipped file using a different key.", action="store_true")
-parser.add_argument("-t", "--trash", help="deletes the original file/directory", action="store_true")
-parser.add_argument("-d", "--decrypt", help="decrypts all encrypted files in a directory or zip file", action="store_true")
+if installed:
+    parser.add_argument("file_to_encrypt", help="the file or directory to encrypt")
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+    parser.add_argument("-k", "--key", help="Specify a custom key", dest="key1", action="store_true")
+    parser.add_argument("-p", "--paranoidKey", help="Specify a custom key for zip files", dest="key2", action="store_true")
+    parser.add_argument("-z", "--zipped", help="Zips the files and encrypts the zipped file using a different key.", action="store_true")
+    parser.add_argument("-t", "--trash", help="Deletes the original file/directory", action="store_true")
+    parser.add_argument("-d", "--decrypt", help="Decrypts all encrypted files in a directory or zip file", action="store_true")
+    parser.add_argument("-g", "--get_keys", help="Copies the keys used to the same directory as the encrypted files", action="store_true")
+else:
+    parser.add_argument("-i", "--install", help="installs a the program", action="store_true")
 args = parser.parse_args()
 
+#install script
+if not installed:
+    if args.install:
+        if not os.path.isdir(progdir): os.system("mkdir " + progdir)
+        os.system("ssh-keygen -t rsa <<< \"" + progdir + "/rsa1\n\n\"")
+        os.system("ssh-keygen -t rsa <<< \"" + progdir + "/rsa2\n\n\"")
+        os.system("openssl rsa -in " + progdir + "/rsa1 -outform pem > " + progdir +"/rsa1.pem")
+        os.system("openssl rsa -in " + progdir + "/rsa2 -outform pem > " + progdir +"/rsa2.pem")
+        os.system("openssl rsa -in " + progdir + "/rsa1 -pubout -outform pem > " + progdir + "/rsa1.pub.pem")
+        os.system("openssl rsa -in " + progdir + "/rsa2 -pubout -outform pem > " + progdir + "/rsa2.pub.pem")
+        os.system("openssl rand -base64 32 > " + progdir + "/key1.bin")
+        os.system("openssl rand -base64 32 > " + progdir + "/key2.bin")
+        os.system("openssl rsautl -encrypt -inkey " + progdir + "/rsa1.pub.pem -pubin -in " + progdir + "/key1.bin -out " + progdir + "/key1.bin.enc")
+        os.system("openssl rsautl -encrypt -inkey " + progdir + "/rsa2.pub.pem -pubin -in " + progdir + "/key2.bin -out " + progdir + "/key2.bin.enc")
+        print("Take care of your keys in " + progdir + ", they're important!")
+    sys.exit(0)
+
 #check for valid pathname
-if not os.path.isfile(args.file_to_encrypt) or args.file_to_encrypt.endswith("/"):
+if (not os.path.isfile(args.file_to_encrypt) and not os.path.isdir(args.file_to_encrypt)) or args.file_to_encrypt.endswith("/"):
     print("File not found")
     sys.exit(1)
 if args.decrypt and not args.file_to_encrypt.endswith(".enc"):
     if not os.path.isdir(args.file_to_encrypt):
         print("Not a valid file to decrypt")
         sys.exit(1)
+if not os.path.isfile(keyFile) or not os.path.isfile(paranoidKeyFile):
+    print("Error, no two valid keyfiles given")
+    sys.exit(1)
 
 #determining mission parameters
 isFile = False
 isDir = False
+isZip = False
 
 if os.path.isdir(args.file_to_encrypt):
     isDir = True
+elif args.file_to_encrypt.endswith(".zip.enc"):
+    isZip = True
 else:
     isFile = True
 
@@ -121,7 +155,7 @@ Zips a file
 """
 def zipFile(file):
     if args.verbose: print("Zipping File " + file)
-    os.system("zip " + file + ".zip " + file)
+    os.system("zip -j " + file + ".zip " + file)
     if args.verbose: print("Deleting File " + file)
     os.system("rm " + file)
 
@@ -129,50 +163,90 @@ def zipFile(file):
 Encrypts a zip file with a different key
 @param zipfile - the zip file to be encrypted
 """
-def encryptZipFile(zipfile):
-    if args.verbose: print("encrypting zip file " + zipfile)
-    os.system("openssl enc -aes-256-cbc -salt -in \"" + zipfile + "\" -out \"" + zipfile + ".enc\" -pass file:" + paranoidKeyFile)
-    if args.verbose: print("created encrypted file " + zipfile + ".enc")
-    if args.verbose: print("Deleting zip file " + zipfile)
-    os.system("rm " + zipfile)
+def encryptZipFile(zipFile):
+    if args.verbose: print("encrypting zip file " + zipFile)
+    os.system("openssl enc -aes-256-cbc -salt -in \"" + zipFile + "\" -out \"" + zipFile + ".enc\" -pass file:" + paranoidKeyFile)
+    if args.verbose: print("created encrypted file " + zipFile + ".enc")
+    if args.verbose: print("Deleting zip file " + zipFile)
+    os.system("rm " + zipFile)
+
+def decryptZipFile(encZipFile):
+    if args.verbose: print("decrypting zip file " + encZipFile)
+    newFile = encZipFile.split(".zip.enc")[0] + ".zip"
+    os.system("openssl enc -d -aes-256-cbc -in \"" + encZipFile + "\" -out \"" + newFile + "\" -pass file:" + paranoidKeyFile)
+    if args.verbose: print("created zipped file " + newFile)
+    if args.trash:
+        if args.verbose: print("Deleting encrypted zip file " + encZipFile)
+        os.system("rm " + encZipFile)
+    return newFile
+
+def unzip(zippedFile):
+    if args.verbose: print("unzipping " + zippedFile)
+    newFile = zippedFile.split(".zip")[0]
+    os.system("unzip " + zippedFile + " -d " + os.path.dirname(newFile))
+    if args.verbose: print("deleting " + zippedFile)
+    os.system("rm " + zippedFile)
+    return newFile
+
 
 #main routine
 
 if not args.decrypt:
     if args.zipped:
         if args.trash:
-            if os.path.isdir(args.file_to_encrypt):
+            if isDir:
                 encryptDirectory(args.file_to_encrypt, True, True)
-                zipDirectory(args.path_to_encrypt + "_encrypted")
+                zipDirectory(args.file_to_encrypt + "_encrypted")
+                encryptZipFile(args.file_to_encrypt + "_encrypted.zip")
             else:
                 encryptFile(args.file_to_encrypt, True)
                 zipFile(args.file_to_encrypt + ".enc")
+                encryptZipFile(args.file_to_encrypt + ".enc.zip")
         else:
-            if os.path.isdir(args.file_to_encrypt):
+            if isDir:
                 encryptDirectory(args.file_to_encrypt, False, True)
-                zipDirectory(args.path_to_encrypt + "_encrypted")
+                zipDirectory(args.file_to_encrypt + "_encrypted")
+                encryptZipFile(args.file_to_encrypt + "_encrypted.zip")
             else:
                 encryptFile(args.file_to_encrypt, False)
                 zipFile(args.file_to_encrypt + ".enc")
+                encryptZipFile(args.file_to_encrypt + ".enc.zip")
     else:
         if args.trash:
-            if os.path.isdir(args.file_to_encrypt):
+            if isDir:
                 encryptDirectory(args.file_to_encrypt, True, True)
+                
             else:
                 encryptFile(args.file_to_encrypt, True)
         else:
-            if os.path.isdir(args.file_to_encrypt):
+            if isDir:
                 encryptDirectory(args.file_to_encrypt, False, True)
             else:
                 encryptFile(args.file_to_encrypt, False)
 else:
-    if args.trash:
-        if os.path.isdir(args.file_to_encrypt):
-            decryptDirectory(args.file_to_encrypt, True)
+    if isZip:
+        deCryptedZip = decryptZipFile(args.file_to_encrypt)
+        unzipped = unzip(deCryptedZip)
+        if os.path.isdir(unzipped): isDir = True
+        else: isFile = True
+        if args.trash:
+            if isDir:
+                decryptDirectory(unzipped, True)
+            else:
+                decryptfile(unzipped, True)
         else:
-            decryptfile(args.file_to_encrypt, True)
+            if isDir:
+                decryptDirectory(unzipped, False)
+            else:
+                decryptfile(unzipped, True)
     else:
-        if os.path.isdir(args.file_to_encrypt):
-            decryptDirectory(args.file_to_encrypt, False)
+        if args.trash:
+            if isDir:
+                decryptDirectory(args.file_to_encrypt, True)
+            else:
+                decryptfile(args.file_to_encrypt, True)
         else:
-            decryptfile(args.file_to_encrypt, False)
+            if isDir:
+                decryptDirectory(args.file_to_encrypt, False)
+            else:
+                decryptfile(args.file_to_encrypt, False)
