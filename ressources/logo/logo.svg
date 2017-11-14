@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="logo.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="267.3778"
+     inkscape:cy="443.26137"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-97)">
+    <ellipse
+       style="fill:#5e75ff;fill-opacity:1;stroke:#030000;stroke-width:1.03886604;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path871"
+       cx="52.667786"
+       cy="194.71062"
+       rx="28.598698"
+       ry="58.030365" />
+    <ellipse
+       style="fill:#76ffff;fill-opacity:1;stroke:#030000;stroke-width:1.71532249;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path871-3"
+       cx="143.68277"
+       cy="195.21616"
+       rx="47.220707"
+       ry="95.816772" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot888"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.30107456,0.30107456,0,127.97125,280.00132)"><flowRegion
+         id="flowRegion890"><rect
+           id="rect892"
+           width="476.79199"
+           height="179.80716"
+           x="121.21831"
+           y="-306.77496" /></flowRegion><flowPara
+         id="flowPara894"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.33333588px;font-family:D050000L;-inkscape-font-specification:D050000L">BATCH</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot896"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(0,-0.30107456,0.30107456,0,203.04124,526.89835)"><flowRegion
+         id="flowRegion898"><rect
+           id="rect900"
+           width="646.97046"
+           height="128.59906"
+           x="800.04083"
+           y="-256.26733" /></flowRegion><flowPara
+         id="flowPara902"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.33333588px;font-family:D050000L;-inkscape-font-specification:D050000L">ENCRYPTER</flowPara></flowRoot>  </g>
+</svg>
