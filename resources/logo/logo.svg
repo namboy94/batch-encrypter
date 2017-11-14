@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,12 +61,12 @@
        rx="28.598698"
        ry="58.030365" />
     <ellipse
-       style="fill:#76ffff;fill-opacity:1;stroke:#030000;stroke-width:1.71532249;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#76ffff;fill-opacity:1;stroke:#030000;stroke-width:1.38111007;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path871-3"
-       cx="143.68277"
-       cy="195.21616"
-       rx="47.220707"
-       ry="95.816772" />
+       cx="129.7795"
+       cy="196.4129"
+       rx="38.020252"
+       ry="77.147888" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot888"
@@ -83,7 +83,7 @@
        xml:space="preserve"
        id="flowRoot896"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       transform="matrix(0,-0.30107456,0.30107456,0,203.04124,526.89835)"><flowRegion
+       transform="matrix(0,-0.30107456,0.30107456,0,193.21386,508.75549)"><flowRegion
          id="flowRegion898"><rect
            id="rect900"
            width="646.97046"
@@ -91,5 +91,5 @@
            x="800.04083"
            y="-256.26733" /></flowRegion><flowPara
          id="flowPara902"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.33333588px;font-family:D050000L;-inkscape-font-specification:D050000L">ENCRYPTER</flowPara></flowRoot>  </g>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:65.61682129px;font-family:D050000L;-inkscape-font-specification:D050000L">ENCRYPTER</flowPara></flowRoot>  </g>
 </svg>
