@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2015-2017 Hermann Krumrey <hermann@krumreyh.com>
+Copyright 2015 Hermann Krumrey <hermann@krumreyh.com>
 
 This file is part of batch-encrypter.
 
